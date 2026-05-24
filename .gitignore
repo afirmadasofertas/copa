@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 preview.png
+current-liberado*.png
 /public/pdfs/
 
 # debug

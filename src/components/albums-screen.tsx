@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import gsap from "gsap"
 import { ArrowLeft, Lock, X } from "lucide-react"
@@ -22,6 +23,7 @@ type StickerDocument = {
   href: string
   tag: string
   accent: string
+  previewHref?: string
 }
 
 type AlbumsScreenProps = {
@@ -107,12 +109,20 @@ export function AlbumsScreen({ documents }: AlbumsScreenProps) {
               </CardHeader>
 
               <CardContent>
-                <div className="overflow-hidden rounded-xl border border-black/10 bg-zinc-50">
-                  <iframe
-                    title={`Prévia de ${document.name}`}
-                    src={`${document.href}#toolbar=0&navpanes=0&view=FitH`}
-                    className="h-[310px] w-full bg-white"
-                  />
+                <div className="relative h-[310px] overflow-hidden rounded-xl border border-black/10 bg-zinc-50">
+                  {document.previewHref ? (
+                    <Image
+                      src={document.previewHref}
+                      alt={`Prévia de ${document.name}`}
+                      fill
+                      unoptimized
+                      className="object-contain p-3"
+                    />
+                  ) : (
+                    <div className="grid h-full place-items-center p-6 text-center text-sm font-semibold text-zinc-500">
+                      Prévia indisponível
+                    </div>
+                  )}
                 </div>
               </CardContent>
 
