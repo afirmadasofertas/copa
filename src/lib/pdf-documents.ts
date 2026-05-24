@@ -1,91 +1,190 @@
-import fs from "node:fs"
-import path from "node:path"
-
 export type StickerDocument = {
   name: string
   href: string
   tag: string
   accent: string
-  previewHref?: string
+  previewHref: string
 }
 
-const accents = ["bg-[#e60000]", "bg-[#244cff]", "bg-[#00d084]", "bg-[#ff6a00]"]
-
-const translatedNames: Record<string, string> = {
-  "TODAS LAS FIGURITAS EN PDF": "Todas as figurinhas em PDF",
-  "COCA COLA": "Coca-Cola",
-  MEXICO: "México",
-  COLOMBIA: "Colômbia",
-  CROACIA: "Croácia",
-  "Controle de Figurinhas 26": "Controle de figurinhas 2026",
-  "Figurinhas Extras Douradas (1)": "Figurinhas extras douradas",
-  "FIGURINHAS EXTRAS PARTE 1": "Figurinhas extras - Parte 1",
-  "Hologramas (1)": "Hologramas",
-}
-
-const translatedTags: Record<string, string> = {
-  "0 TODAS AS EQUIPES Qualidade Média": "Todas as equipes",
-  "COCA-COLA": "Coca-Cola",
-  MEXICO: "México",
-  COLOMBIA: "Colômbia",
-  CROACIA: "Croácia",
-}
-
-function normalizeTitle(title: string) {
-  return translatedNames[title] ?? title
-}
-
-function normalizeTag(tag: string) {
-  return translatedTags[tag] ?? tag
-}
+const driveFolderUrl =
+  "https://drive.google.com/drive/folders/1b03aqoqbTF1JBpqCdOVMVTnMB-F8pIj8?usp=share_link"
 
 export function getPdfDocuments(): StickerDocument[] {
-  const root = path.join(process.cwd(), "public", "mundial2026")
-  const publicRoot = path.join(process.cwd(), "public")
-  const previewsRoot = path.join(publicRoot, "previews")
-  const previews = fs.existsSync(previewsRoot)
-    ? fs.readdirSync(previewsRoot).map((file) => ({
-        file,
-        normalized: file.normalize("NFC"),
-      }))
-    : []
-  const files: string[] = []
-
-  function walk(directory: string) {
-    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-      const fullPath = path.join(directory, entry.name)
-
-      if (entry.isDirectory()) {
-        walk(fullPath)
-        continue
-      }
-
-      if (entry.isFile() && entry.name.toLowerCase().endsWith(".pdf")) {
-        files.push(fullPath)
-      }
-    }
-  }
-
-  walk(root)
-
-  return files
-    .sort((a, b) => a.localeCompare(b, "pt-BR"))
-    .map((file, index) => {
-      const relativePath = path.relative(publicRoot, file)
-      const rawName = path.basename(file, ".pdf").replaceAll("_", " ")
-      const parent = path.basename(path.dirname(file)).replace(" (Alta Resolução)", "")
-      const preview = previews.find(
-        (item) => item.normalized === `${path.basename(file)}.png`.normalize("NFC")
-      )
-
-      return {
-        name: normalizeTitle(rawName),
-        href: `/${relativePath.split(path.sep).map(encodeURIComponent).join("/")}`,
-        tag: parent === "mundial2026" ? "Extras" : normalizeTag(parent),
-        accent: accents[index % accents.length],
-        previewHref: preview
-          ? `/previews/${preview.file.split(path.sep).map(encodeURIComponent).join("/")}`
-          : undefined,
-      }
-    })
+  return [
+    {
+      name: "Todas as figurinhas em PDF",
+      href: driveFolderUrl,
+      tag: "Todas as equipes",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/TODAS%20LAS%20FIGURITAS%20EN%20PDF.pdf.png",
+    },
+    {
+      name: "Álbum PDF 2026",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/A%CC%81lbum%20PDF%202026.pdf.png",
+    },
+    {
+      name: "ALEMANHA",
+      href: driveFolderUrl,
+      tag: "ALEMANHA",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/ALEMANHA.pdf.png",
+    },
+    {
+      name: "ARGENTINA",
+      href: driveFolderUrl,
+      tag: "ARGENTINA",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/ARGENTINA.pdf.png",
+    },
+    {
+      name: "BRASIL",
+      href: driveFolderUrl,
+      tag: "BRASIL",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/BRASIL.pdf.png",
+    },
+    {
+      name: "Coca-Cola",
+      href: driveFolderUrl,
+      tag: "Coca-Cola",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/COCA%20COLA.pdf.png",
+    },
+    {
+      name: "Colômbia",
+      href: driveFolderUrl,
+      tag: "COLÔMBIA",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/COLOMBIA.pdf.png",
+    },
+    {
+      name: "Controle de figurinhas 2026",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/Controle%20de%20Figurinhas_26.pdf.png",
+    },
+    {
+      name: "Croácia",
+      href: driveFolderUrl,
+      tag: "CROÁCIA",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/CROACIA.pdf.png",
+    },
+    {
+      name: "Douradas",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/Douradas.pdf.png",
+    },
+    {
+      name: "ENVELOPES",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/ENVELOPES.pdf.png",
+    },
+    {
+      name: "EQUADOR",
+      href: driveFolderUrl,
+      tag: "EQUADOR",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/EQUADOR.pdf.png",
+    },
+    {
+      name: "ESPANHA",
+      href: driveFolderUrl,
+      tag: "ESPANHA",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/ESPANHA.pdf.png",
+    },
+    {
+      name: "Figurinhas extras douradas",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/Figurinhas%20Extras%20Douradas%20(1).pdf.png",
+    },
+    {
+      name: "Figurinhas extras - Parte 1",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/FIGURINHAS%20EXTRAS%20PARTE%201.pdf.png",
+    },
+    {
+      name: "FRANÇA",
+      href: driveFolderUrl,
+      tag: "FRANÇA",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/FRANC%CC%A7A.pdf.png",
+    },
+    {
+      name: "HOLANDA",
+      href: driveFolderUrl,
+      tag: "HOLANDA",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/HOLANDA.pdf.png",
+    },
+    {
+      name: "Hologramas",
+      href: driveFolderUrl,
+      tag: "Extras",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/Hologramas%20(1).pdf.png",
+    },
+    {
+      name: "INGLATERRA",
+      href: driveFolderUrl,
+      tag: "INGLATERRA",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/INGLATERRA.pdf.png",
+    },
+    {
+      name: "MARROCOS",
+      href: driveFolderUrl,
+      tag: "MARROCOS",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/MARROCOS.pdf.png",
+    },
+    {
+      name: "México",
+      href: driveFolderUrl,
+      tag: "MÉXICO",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/MEXICO.pdf.png",
+    },
+    {
+      name: "NEYMAR",
+      href: driveFolderUrl,
+      tag: "NEYMAR",
+      accent: "bg-[#244cff]",
+      previewHref: "/previews/NEYMAR.pdf.png",
+    },
+    {
+      name: "NORUEGA",
+      href: driveFolderUrl,
+      tag: "NORUEGA",
+      accent: "bg-[#00d084]",
+      previewHref: "/previews/NORUEGA.pdf.png",
+    },
+    {
+      name: "PORTUGAL",
+      href: driveFolderUrl,
+      tag: "PORTUGAL",
+      accent: "bg-[#ff6a00]",
+      previewHref: "/previews/PORTUGAL.pdf.png",
+    },
+    {
+      name: "URUGUAI",
+      href: driveFolderUrl,
+      tag: "URUGUAI",
+      accent: "bg-[#e60000]",
+      previewHref: "/previews/URUGUAI.pdf.png",
+    },
+  ]
 }

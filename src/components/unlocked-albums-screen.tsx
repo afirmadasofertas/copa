@@ -126,7 +126,7 @@ export function UnlockedAlbumsScreen({ documents }: UnlockedAlbumsScreenProps) {
                   render={
                     <a href={document.href} target="_blank" rel="noreferrer">
                       <Eye data-icon="inline-start" />
-                      Abrir
+                      Abrir no Drive
                     </a>
                   }
                   variant="outline"
@@ -135,9 +135,9 @@ export function UnlockedAlbumsScreen({ documents }: UnlockedAlbumsScreenProps) {
                 <Button
                   nativeButton={false}
                   render={
-                    <a href={document.href} download>
+                    <a href={document.href} target="_blank" rel="noreferrer">
                       <Download data-icon="inline-start" />
-                      Baixar
+                      Baixar no Drive
                     </a>
                   }
                   className="h-10 flex-1 rounded-xl bg-[#171717] text-white hover:bg-[#171717]/90"
