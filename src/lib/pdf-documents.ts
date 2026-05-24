@@ -23,7 +23,7 @@ export function getPdfDocuments(): StickerDocument[] {
       href: driveFolderUrl,
       tag: "Extras",
       accent: "bg-[#244cff]",
-      previewHref: "/previews/A%CC%81lbum%20PDF%202026.pdf.png",
+      previewHref: "/previews/album-pdf-2026.png",
     },
     {
       name: "ALEMANHA",
@@ -121,7 +121,7 @@ export function getPdfDocuments(): StickerDocument[] {
       href: driveFolderUrl,
       tag: "FRANÇA",
       accent: "bg-[#ff6a00]",
-      previewHref: "/previews/FRANC%CC%A7A.pdf.png",
+      previewHref: "/previews/franca.png",
     },
     {
       name: "HOLANDA",
